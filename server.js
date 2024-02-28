@@ -62,3 +62,20 @@ app.post('/signup',(req,res)=>{
 app.listen(PORT,()=>{
     console.log("Servidor escuchando en el puerto"+PORT);
 });
+
+// obtener un usuario por su ID
+app.get('/users/:userId', (req, res) => {
+    const userId = req.params.userId; 
+    User.findById(userId, (err, user) => {
+        if (err) {
+            console.error("Error al buscar el usuario:", err);
+            res.status(500).json({ error: "Error interno al buscar el usuario en la base de datos" });
+        } else {
+            if (user) {
+                res.json(user);
+            } else {
+                res.status(404).json({ error: "Usuario no encontrado" });
+            }
+        }
+    });
+});
